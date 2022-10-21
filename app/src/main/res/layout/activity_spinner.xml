@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="18dp"
+        android:layout_marginTop="200dp"
+        android:text="Select Sports:"
+        android:textSize="16sp" />
+
+    <com.omanshuaman.testingtournamentsports.CustomSpinner
+        android:id="@+id/spinner_fruits"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="250dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/bg_spinner_fruit"
+        android:dropDownVerticalOffset="40dp" />
+
+    <Button
+        android:id="@+id/next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spinner_fruits"
+        android:layout_margin="25dp"
+        android:text="NEXT" />
+
+</RelativeLayout>

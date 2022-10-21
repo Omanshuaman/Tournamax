@@ -1,0 +1,34 @@
+buildscript {
+    ext {
+
+    }
+    repositories {
+        // Check that you have the following line (if not, add it):
+        google()  // Google's Maven repository
+        maven { url 'https://jitpack.io' }
+
+    }
+    dependencies {
+        // Add this line
+      //  classpath 'com.google.gms:google-services:4.3.14'
+
+        classpath("com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.1")
+        classpath 'com.google.gms:google-services:4.3.14'
+
+    }
+}
+//buildscript {
+//    dependencies {
+//        classpath 'com.google.gms:google-services:4.3.13'
+//    }
+//}// Top-level build file where you can add configuration options common to all sub-projects/modules.
+//// Top-level build file where you can add configuration options common to all sub-projects/modules.
+plugins {
+    id 'com.android.application' version '7.3.0' apply false
+    id 'com.android.library' version '7.3.0' apply false
+    id 'org.jetbrains.kotlin.android' version '1.7.10' apply false
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

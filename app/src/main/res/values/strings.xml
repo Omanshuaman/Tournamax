@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">Testing Tournamax</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_exit">Sign Out</string>
+
+
+    <string name="email_address">Email Address</string>
+    <string name="password">Password</string>
+    <string name="title_activity_compose">ComposeActivity</string>
+
+
+    <string name="app_logo">Application Logo</string>
+    <string name="on_boarding_image">On Boarding Image</string>
+    <string name="search_icon">Search Icon</string>
+    <string name="star_path">M14,21.288,21.416,26l-1.968-8.88L26,11.145l-8.628-.771L14,2l-3.372,8.375L2,11.145,8.552,17.12,6.584,26Z</string>
+    <string name="hero_image">Hero Image</string>
+    <string name="network_error_icon">Network Error Icon</string>
+    <string name="search">Search here...</string>
+    <string name="close_icon">Close Icon</string>
+    <string name="info_icon">Info Icon</string>
+    <string name="power">Entry Fee</string>
+    <string name="month">Prize Money</string>
+    <string name="birthday">Match Date</string>
+    <string name="about">Address</string>
+    <string name="family">Family</string>
+    <string name="abilities">Abilities</string>
+    <string name="nature_types">Nature Types</string>
+    <string name="dummy_text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
+
+    <string-array name="numbers">
+        <item>100m</item>
+        <item>200m</item>
+        <item>400m</item>
+    </string-array>
+</resources>
