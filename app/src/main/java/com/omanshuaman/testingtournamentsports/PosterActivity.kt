@@ -1,11 +1,11 @@
 package com.omanshuaman.testingtournamentsports
 
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.*
 import android.net.Uri
-import android.os.Build
-import android.os.Bundle
+import android.os.*
 import android.provider.MediaStore
 import android.text.Layout
 import android.text.StaticLayout
@@ -15,6 +15,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.withTranslation
@@ -25,16 +26,16 @@ import com.omanshuaman.testingtournamentsports.inventory.LoadingDialog
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
-import java.util.HashMap
-import androidx.appcompat.app.AlertDialog
 
+@RequiresApi(Build.VERSION_CODES.R)
 
 class PosterActivity : AppCompatActivity() {
     var imageView: ImageView? = null
     private var storageReference: StorageReference? = null
     private var button: Button? = null
+    private var loadingDialog: LoadingDialog? = null
+    private var progressDialog: ProgressDialog? = null
 
-    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_poster)
@@ -42,6 +43,10 @@ class PosterActivity : AppCompatActivity() {
         button = findViewById(R.id.storage)
         val loadingDialog = LoadingDialog(this@PosterActivity)
         loadingDialog.startLoadingDialog()
+
+        progressDialog = ProgressDialog(this@PosterActivity)
+        progressDialog!!.setTitle("Login")
+        progressDialog!!.setMessage("Please Wait \n Validation in Progress")
 
         val intent = intent
         val extras = intent.extras
@@ -130,9 +135,22 @@ class PosterActivity : AppCompatActivity() {
                     loadingDialog.dismissDialog()
 
                     button!!.setOnClickListener {
-                        uploadFile(getImageUri(this, bitmap), id!!)
+
+                        loadingDialog.startLoadingDialog()
+
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            // Your Code
+                            uploadFile(
+                                getImageUri(this, bitmap),
+                                getImageUriLow(this, bitmap),
+                                getImageUriMid(this, bitmap),
+                                id!!
+                            )
+                        }, 100)
 
                     }
+
+
                 }.addOnFailureListener {
                     Toast.makeText(
                         this@PosterActivity,
@@ -146,16 +164,26 @@ class PosterActivity : AppCompatActivity() {
 
     }
 
-    private fun uploadFile(imageUri: Uri?, groupId: String) {
-        val loadingDialog = LoadingDialog(this@PosterActivity)
 
-        loadingDialog.startLoadingDialog()
+    private fun uploadFile(imageUri: Uri?, imageUri1: Uri?, imageUri2: Uri?, groupId: String) {
+
         if (imageUri != null) {
 
             val fileRef =
                 storageReference!!.child(
                     System.currentTimeMillis()
                         .toString() + "." + getFileExtension(imageUri)
+                )
+
+            val fileRef1 =
+                storageReference!!.child(
+                    System.currentTimeMillis()
+                        .toString() + "." + getFileExtension(imageUri1!!)
+                )
+            val fileRef2 =
+                storageReference!!.child(
+                    System.currentTimeMillis()
+                        .toString() + "." + getFileExtension(imageUri2!!)
                 )
             fileRef.putFile(imageUri).addOnSuccessListener {
                 fileRef.downloadUrl.addOnSuccessListener { uri1: Uri ->
@@ -167,20 +195,83 @@ class PosterActivity : AppCompatActivity() {
                             .child("Just Photos")
                     ref.child(groupId).updateChildren(hashMap)
                         .addOnSuccessListener { //updated...
-                            loadingDialog.dismissDialog()
 
-                            Toast.makeText(
-                                this@PosterActivity,
-                                "Image uploaded...",
-                                Toast.LENGTH_SHORT
-                            )
-                                .show()
-                            val intent1 = Intent(this, GroupCreateActivity::class.java)
-                            intent1.putExtra("tournamentId", groupId)
-                            startActivity(intent1)
+                            fileRef1.putFile(imageUri1).addOnSuccessListener {
+                                fileRef1.downloadUrl.addOnSuccessListener { uri1: Uri ->
+
+                                    val hashMap1 = HashMap<String, Any>()
+                                    hashMap1["imageUrlLow"] = uri1.toString()
+                                    val ref1 =
+                                        FirebaseDatabase.getInstance().getReference("Tournament")
+                                            .child("Just Photos")
+                                    ref1.child(groupId).updateChildren(hashMap1)
+                                        .addOnSuccessListener { //updated...
+
+                                            fileRef2.putFile(imageUri2).addOnSuccessListener {
+                                                fileRef2.downloadUrl.addOnSuccessListener { uri1: Uri ->
+
+                                                    val hashMap2 = HashMap<String, Any>()
+                                                    hashMap2["imageUrlMid"] = uri1.toString()
+                                                    val ref2 =
+                                                        FirebaseDatabase.getInstance()
+                                                            .getReference("Tournament")
+                                                            .child("Just Photos")
+                                                    ref2.child(groupId).updateChildren(hashMap2)
+                                                        .addOnSuccessListener { //updated...
+
+                                                            Toast.makeText(
+                                                                this@PosterActivity,
+                                                                "Image uploaded...",
+                                                                Toast.LENGTH_SHORT
+                                                            )
+                                                                .show()
+                                                            loadingDialog?.dismissDialog()
+
+                                                            val intent1 =
+                                                                Intent(
+                                                                    this,
+                                                                    GroupCreateActivity::class.java
+                                                                )
+                                                            intent1.putExtra(
+                                                                "tournamentId",
+                                                                groupId
+                                                            )
+                                                            startActivity(intent1)
+
+                                                        }
+                                                        .addOnFailureListener { e -> //update failed
+                                                            loadingDialog?.dismissDialog()
+
+                                                            Toast.makeText(
+                                                                this@PosterActivity,
+                                                                "" + e.message,
+                                                                Toast.LENGTH_SHORT
+                                                            )
+                                                                .show()
+                                                        }
+
+                                                }
+
+                                            }
+
+                                        }
+                                        .addOnFailureListener { e -> //update failed
+                                            loadingDialog?.dismissDialog()
+
+                                            Toast.makeText(
+                                                this@PosterActivity,
+                                                "" + e.message,
+                                                Toast.LENGTH_SHORT
+                                            )
+                                                .show()
+                                        }
+
+                                }
+
+                            }
                         }
                         .addOnFailureListener { e -> //update failed
-                            loadingDialog.dismissDialog()
+                            loadingDialog?.dismissDialog()
 
                             Toast.makeText(this@PosterActivity, "" + e.message, Toast.LENGTH_SHORT)
                                 .show()
@@ -192,7 +283,23 @@ class PosterActivity : AppCompatActivity() {
         }
     }
 
+    private fun getResizedBitmap(image: Bitmap, maxSize: Int): Bitmap? {
+
+        var width = image.width
+        var height = image.height
+        val bitmapRatio = width.toFloat() / height.toFloat()
+        if (bitmapRatio > 1) {
+            width = maxSize
+            height = (width / bitmapRatio).toInt()
+        } else {
+            height = maxSize
+            width = (height * bitmapRatio).toInt()
+        }
+        return Bitmap.createScaledBitmap(image, width, height, true)
+    }
+
     private fun getImageUri(inContext: Context, inImage: Bitmap): Uri? {
+
         Toast.makeText(
             this@PosterActivity,
             "Wait till we convert this to upload Format...",
@@ -205,6 +312,40 @@ class PosterActivity : AppCompatActivity() {
             inContext.contentResolver,
             inImage,
             "Title" + System.currentTimeMillis(),
+            null
+        )
+
+        return Uri.parse(path)
+
+    }
+
+    private fun getImageUriLow(inContext: Context, inImage: Bitmap): Uri? {
+
+        val convertedImage = getResizedBitmap(inImage, 100)
+
+        val bytes = ByteArrayOutputStream()
+        convertedImage?.compress(Bitmap.CompressFormat.PNG, 100, bytes)
+        val path = MediaStore.Images.Media.insertImage(
+            inContext.contentResolver,
+            convertedImage,
+            "TitleLow" + System.currentTimeMillis(),
+            null
+        )
+
+        return Uri.parse(path)
+
+    }
+
+    private fun getImageUriMid(inContext: Context, inImage: Bitmap): Uri? {
+
+        val convertedImage = getResizedBitmap(inImage, 1000)
+
+        val bytes = ByteArrayOutputStream()
+        convertedImage?.compress(Bitmap.CompressFormat.PNG, 100, bytes)
+        val path = MediaStore.Images.Media.insertImage(
+            inContext.contentResolver,
+            convertedImage,
+            "TitleMid" + System.currentTimeMillis(),
             null
         )
 

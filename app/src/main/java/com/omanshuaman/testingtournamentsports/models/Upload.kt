@@ -3,7 +3,7 @@ package com.omanshuaman.testingtournamentsports.models
 class Upload {
     var imageUrl: String? = null
     var matchDate: String? = null
-    var registerDate: String? = null
+    var imageUrlLow: String? = null
     var requirement: String? = null
     var sports: String? = null
     var address: String? = null
@@ -15,13 +15,14 @@ class Upload {
     var entryFee: String? = null
     var prizeMoney: String? = null
     var uid: String? = null
+    var imageUrlMid: String? = null
 
 
     constructor(
         Id: String?,
         tournamentName: String?,
         matchDate: String?,
-        registerDate: String?,
+        imageUrlLow: String?,
         requirement: String?,
         sports: String?,
         address: String?,
@@ -31,13 +32,15 @@ class Upload {
         SportsType: String?,
         entryFee: String?,
         prizeMoney: String?,
-        uid: String?
+        uid: String?,
+        imageUrlMid: String?
+
     ) {
         this.Id = Id
         this.imageUrl = imageUrl
         this.tournamentName = tournamentName
         this.matchDate = matchDate
-        this.registerDate = registerDate
+        this.imageUrlLow = imageUrlLow
         this.requirement = requirement
         this.sports = sports
         this.address = address
@@ -47,6 +50,7 @@ class Upload {
         this.entryFee = entryFee
         this.prizeMoney = prizeMoney
         this.uid = uid
+        this.imageUrlMid = imageUrlMid
 
 
     }

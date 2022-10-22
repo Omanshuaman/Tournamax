@@ -58,10 +58,12 @@ class AdapterCard(context: Context, uploads: List<Upload?>?) :
         val prize = model?.prizeMoney
         val address = model?.address
         val matchDate = model?.matchDate
+        val imageUrlLow = model?.imageUrlLow
+        val imageUrlMid = model?.imageUrlMid
 
         val image = model?.imageUrl
         val name: String? = mUploads[position]?.tournamentName
-        Picasso.get().load(image).fit().centerCrop().into(holder.image)
+        Picasso.get().load(imageUrlLow).fit().centerCrop().into(holder.image)
 
         //set data
         holder.name.text = name
@@ -79,6 +81,8 @@ class AdapterCard(context: Context, uploads: List<Upload?>?) :
             extras.putString("address", address)
             extras.putString("tournamentName", name)
             extras.putString("backgroundImage", image)
+            extras.putString("backgroundImageMid", imageUrlMid)
+
             extras.putString("matchDate", matchDate)
 
             intent.putExtras(extras)

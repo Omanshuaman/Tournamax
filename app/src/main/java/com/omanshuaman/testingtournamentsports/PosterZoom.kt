@@ -156,7 +156,7 @@ class PosterZoom : AppCompatActivity() {
             stream.close()
             uri = FileProvider.getUriForFile(
                 this,
-                "com.omanshuaman.tournamentsports.fileprovider",
+                "com.omanshuaman.testingtournamentsports.fileprovider",
                 file
             )
         } catch (e: Exception) {
