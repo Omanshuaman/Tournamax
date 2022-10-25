@@ -36,6 +36,7 @@ class DetailsActivity : AppCompatActivity() {
     private var address: TextView? = null
     private var matchDate: TextView? = null
     private var button: Button? = null
+    private var organizerName: TextView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +55,7 @@ class DetailsActivity : AppCompatActivity() {
         val address1 = extras?.getString("address")
         val tournamentName1 = extras?.getString("tournamentName")
         val matchDate1 = extras?.getString("matchDate")
+        val organizerName1 = extras?.getString("organizerName")
 
         imageView = findViewById(id.imageView)
         relativeLayout = findViewById(id.relativeLayout)
@@ -63,12 +65,14 @@ class DetailsActivity : AppCompatActivity() {
         address = findViewById(id.address)
         matchDate = findViewById(id.matchDate)
         button = findViewById(id.register)
+        organizerName = findViewById(id.name_phoneNumber)
 
         entryFee!!.text = entryFee1
         prizeMoney!!.text = prizeFee1
         address!!.text = address1
         tournamentName!!.text = tournamentName1
         matchDate!!.text = matchDate1
+        organizerName!!.text = organizerName1
 
         getBitmapFromUrl()
 
@@ -82,8 +86,6 @@ class DetailsActivity : AppCompatActivity() {
 
         }
     }
-
-
 
 
     private fun createPaletteSync(bitmap: Bitmap?): Palette {

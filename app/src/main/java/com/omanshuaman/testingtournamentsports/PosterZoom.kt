@@ -6,6 +6,8 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.os.Handler
+import android.os.Looper
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
@@ -15,6 +17,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.github.chrisbanes.photoview.PhotoView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.omanshuaman.testingtournamentsports.inventory.LoadingDialog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -29,6 +32,7 @@ class PosterZoom : AppCompatActivity() {
     private var download: FloatingActionButton? = null
     private val outputDir = "Android11Permissions"
     private var shareBtn: FloatingActionButton? = null
+    private var loadingDialog: LoadingDialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +42,8 @@ class PosterZoom : AppCompatActivity() {
         imageView = findViewById(R.id.simpleImage)
         download = findViewById(R.id.download)
         shareBtn = findViewById(R.id.shareBtn)
+
+        val loadingDialog = LoadingDialog(this@PosterZoom)
 
         val bundle = intent.extras
         val message = bundle!!.getString("backgroundImage")
@@ -52,63 +58,77 @@ class PosterZoom : AppCompatActivity() {
             .into(imageView!!)
 
         shareBtn!!.setOnClickListener {
+            loadingDialog.startLoadingDialog()
 
-            CoroutineScope(Dispatchers.IO).launch {
+            Handler(Looper.getMainLooper()).postDelayed({
+                // Your Code
+                CoroutineScope(Dispatchers.IO).launch {
 
-                val bitmap: Bitmap =
-                    withContext(Dispatchers.IO) {
-                        Glide.with(this@PosterZoom)
-                            .asBitmap()
-                            .load(message).apply(
-                                RequestOptions()
-                                    .fitCenter()
-                                    .format(DecodeFormat.PREFER_ARGB_8888)
-                                    .override(Target.SIZE_ORIGINAL)
-                            )
-                            .submit()
-                            .get()
+                    val bitmap: Bitmap =
+                        withContext(Dispatchers.IO) {
+                            Glide.with(this@PosterZoom)
+                                .asBitmap()
+                                .load(message).apply(
+                                    RequestOptions()
+                                        .fitCenter()
+                                        .format(DecodeFormat.PREFER_ARGB_8888)
+                                        .override(Target.SIZE_ORIGINAL)
+                                )
+                                .submit()
+                                .get()
+                        }
+                    withContext(Dispatchers.Main) {
+                        shareImageAndText(bitmap)
+                        loadingDialog.dismissDialog()
+
                     }
-                withContext(Dispatchers.Main) {
-                    shareImageAndText(bitmap)
                 }
-            }
+            }, 100)
+
         }
 
         download!!.setOnClickListener {
+            loadingDialog.startLoadingDialog()
 
-            CoroutineScope(Dispatchers.IO).launch {
+            Handler(Looper.getMainLooper()).postDelayed({
+                CoroutineScope(Dispatchers.IO).launch {
 
-                val bitmap: Bitmap =
+                    val bitmap: Bitmap =
+                        withContext(Dispatchers.IO) {
+                            Glide.with(this@PosterZoom)
+                                .asBitmap()
+                                .load(message).apply(
+                                    RequestOptions()
+                                        .fitCenter()
+                                        .format(DecodeFormat.PREFER_ARGB_8888)
+                                        .override(Target.SIZE_ORIGINAL)
+                                )
+                                .submit()
+                                .get()
+                        }
                     withContext(Dispatchers.IO) {
-                        Glide.with(this@PosterZoom)
-                            .asBitmap()
-                            .load(message).apply(
-                                RequestOptions()
-                                    .fitCenter()
-                                    .format(DecodeFormat.PREFER_ARGB_8888)
-                                    .override(Target.SIZE_ORIGINAL)
-                            )
-                            .submit()
-                            .get()
+
+                        var outStream: FileOutputStream? = null
+                        val path = Environment.getExternalStoragePublicDirectory(
+                            Environment.DIRECTORY_PICTURES
+                        )
+                        val file = File(path, "DemoPicture.jpg")
+                        path.mkdirs()
+                        outStream = FileOutputStream(file)
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream)
+                        outStream.flush()
+                        outStream.close()
+
+                        val intent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
+                        intent.data = Uri.fromFile(file)
+                        sendBroadcast(intent)
+                        loadingDialog.dismissDialog()
+
                     }
-                withContext(Dispatchers.IO) {
-
-                    var outStream: FileOutputStream? = null
-                    val path = Environment.getExternalStoragePublicDirectory(
-                        Environment.DIRECTORY_PICTURES
-                    )
-                    val file = File(path, "DemoPicture.jpg")
-                    path.mkdirs()
-                    outStream = FileOutputStream(file)
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream)
-                    outStream.flush()
-                    outStream.close()
-
-                    val intent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
-                    intent.data = Uri.fromFile(file)
-                    sendBroadcast(intent)
                 }
-            }
+
+            }, 100)
+
         }
     }
 
@@ -141,6 +161,7 @@ class PosterZoom : AppCompatActivity() {
         }
 
         startActivity(chooser)
+
 
     }
 

@@ -63,7 +63,7 @@ class ParticipantInfoActivity : AppCompatActivity() {
                 progressDialog!!.dismiss()
                 Toast.makeText(
                     this@ParticipantInfoActivity,
-                    "Group created...",
+                    "Registered... Go to group.",
                     Toast.LENGTH_SHORT
                 )
                     .show()

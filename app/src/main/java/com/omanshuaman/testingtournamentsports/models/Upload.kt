@@ -16,6 +16,8 @@ class Upload {
     var prizeMoney: String? = null
     var uid: String? = null
     var imageUrlMid: String? = null
+    var organizerName: String? = null
+    var phoneNumber: String? = null
 
 
     constructor(
@@ -33,7 +35,9 @@ class Upload {
         entryFee: String?,
         prizeMoney: String?,
         uid: String?,
-        imageUrlMid: String?
+        imageUrlMid: String?,
+        organizerName: String?,
+        phoneNumber: String?
 
     ) {
         this.Id = Id
@@ -51,6 +55,8 @@ class Upload {
         this.prizeMoney = prizeMoney
         this.uid = uid
         this.imageUrlMid = imageUrlMid
+        this.organizerName = organizerName
+        this.phoneNumber = phoneNumber
 
 
     }

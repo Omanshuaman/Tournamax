@@ -103,7 +103,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="12dp"
                     android:alpha="0.75"
                     android:fontFamily="@font/poppins_medium"
                     android:text="60 ₹"
@@ -111,6 +110,15 @@
                     android:textColor="@android:color/white"
                     android:textSize="14sp" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:alpha="0.75"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="*Only given to organizer at match date"
+                    android:layout_marginBottom="12dp"
+                    android:textColor="@android:color/white"
+                    android:textSize="8sp" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -169,6 +177,26 @@
                     android:fontFamily="@font/poppins_medium"
                     android:text="26/09/2002"
                     android:id="@+id/matchDate"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:text="Organizer's Name"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:alpha="0.75"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Omanshu Aman"
+                    android:id="@+id/name_phoneNumber"
                     android:textColor="@android:color/white"
                     android:textSize="14sp" />
 

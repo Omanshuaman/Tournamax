@@ -55,7 +55,7 @@ class DashboardActivity : AppCompatActivity(), NavigationView.OnNavigationItemSe
                 MapFragment()
             ).commit()
             navigationView.setCheckedItem(R.id.navi_home)
-        }, 500)
+        }, 100)
 //        if (savedInstanceState == null) {
 //            supportFragmentManager.beginTransaction().replace(
 //                R.id.fragment_container,

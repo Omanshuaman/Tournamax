@@ -46,6 +46,9 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
     private var mAddress: EditText? = null
     private var mEntryFee: EditText? = null
     private var mPrizeMoney: EditText? = null
+    private var mOrganizerName: EditText? = null
+    private var mPhoneNumber: EditText? = null
+
     private var mbtnPicklocation: Button? = null
     private var tvMylocation: TextView? = null
     private val PLACE_PICKER_REQUEST2 = 999
@@ -80,6 +83,8 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
         mAddress = findViewById(R.id.address)
         button = findViewById(R.id.button)
         textView = findViewById(R.id.textView)
+        mOrganizerName = findViewById(R.id.organizer_name)
+        mPhoneNumber = findViewById(R.id.phoneNumber)
 
         geocoder = Geocoder(this, Locale.getDefault())
 
@@ -254,8 +259,10 @@ class MainActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener,
             mEntryFee?.text.toString(),
             mPrizeMoney?.text.toString(),
             userid,
-            mRegisterDate?.text.toString()
-            )
+            mRegisterDate?.text.toString(),
+            mOrganizerName?.text.toString(),
+            mPhoneNumber?.text.toString(),
+        )
 
         databaseReference.child("Just Photos").child(gTimestamp).setValue(model)
 

@@ -15,7 +15,9 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
@@ -23,18 +25,16 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.*
+import com.google.android.gms.maps.GoogleMap.CancelableCallback
 import com.google.android.gms.maps.model.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.omanshuaman.testingtournamentsports.R
 import com.omanshuaman.testingtournamentsports.SignInActivity
 import com.omanshuaman.testingtournamentsports.SpinnerActivity
 import com.omanshuaman.testingtournamentsports.adapters.AdapterCard
 import com.omanshuaman.testingtournamentsports.models.Upload
-import com.omanshuaman.testingtournamentsports.R
 
 
 class MapFragment : Fragment(), OnMapReadyCallback {
@@ -184,7 +184,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
                     val marker: Marker? = googleMap.addMarker(
                         MarkerOptions().position(location)
                             .icon(
-                                bitmapDescriptorFromVector(context!!, R.drawable.runner)
+                                context?.let { bitmapDescriptorFromVector(it, R.drawable.runner) }
                             )
                     )
                     mMarkerArray.add(marker)

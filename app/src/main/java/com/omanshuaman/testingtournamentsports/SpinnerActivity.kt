@@ -8,12 +8,13 @@ import android.widget.Button
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.omanshuaman.testingtournamentsports.adapters.FruitAdapter
 import com.omanshuaman.testingtournamentsports.inventory.Data
 
 class SpinnerActivity : AppCompatActivity(), CustomSpinner.OnSpinnerEventsListener {
     private var spinner_fruits: CustomSpinner? = null
-    private var next_button: Button? = null
+    private var next_button: FloatingActionButton? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_spinner)

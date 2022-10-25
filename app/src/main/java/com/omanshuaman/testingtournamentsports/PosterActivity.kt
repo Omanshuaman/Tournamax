@@ -19,6 +19,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.graphics.withTranslation
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -32,7 +33,7 @@ import java.io.IOException
 class PosterActivity : AppCompatActivity() {
     var imageView: ImageView? = null
     private var storageReference: StorageReference? = null
-    private var button: Button? = null
+    private var button: FloatingActionButton? = null
     private var loadingDialog: LoadingDialog? = null
     private var progressDialog: ProgressDialog? = null
 
